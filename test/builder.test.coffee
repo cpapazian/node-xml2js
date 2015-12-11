@@ -1,5 +1,5 @@
 # use zap to run tests, it also detects CoffeeScript files
-xml2js = require '../lib/xml2js'
+xml2js = require '../src/xml2js.coffee'
 assert = require 'assert'
 fs = require 'fs'
 path = require 'path'
@@ -232,3 +232,22 @@ module.exports =
     actual = builder.buildObject obj
     diffeq expected, actual
     test.finish()
+
+  'test handles preserveChildrenOrder': (test) ->
+    expected = """
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <xml>
+        <Foo>1</Foo>
+        <Bar>2</Bar>
+        <Foo>3</Foo>
+      </xml>
+    """
+
+    opts = explicitChildren: true, preserveChildrenOrder: true
+    parser = new xml2js.Parser(opts)
+
+    obj = parser.parseString expected, (err, obj) ->
+      builder = new xml2js.Builder opts
+      actual = builder.buildObject obj
+      diffeq expected, actual
+      test.finish()

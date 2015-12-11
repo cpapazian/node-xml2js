@@ -135,8 +135,21 @@ class exports.Builder
           element.raw wrapCDATA obj
         else
           element.txt obj
+      else if @options.preserveChildrenOrder? && obj?[@options.childkey]?
+        # preserveChildrenOrder mode, use childkey if present
+        for own index, entry of obj[@options.childkey]
+          key = entry["#name"]
+          if typeof entry is 'string'
+            if @options.cdata && requiresCDATA entry
+              element = element.ele(key).raw(wrapCDATA entry).up()
+            else
+              element = element.ele(key, entry).up()
+          else
+            element = render(element.ele(key), entry).up()
       else
         for own key, child of obj
+          if @options.preserveChildrenOrder? && key == "#name"
+            continue
           # Case #1 Attribute
           if key is attrkey
             if typeof child is "object"

@@ -341,6 +341,10 @@ Options for the `Builder` class
   * `cdata` (default: `false`): wrap text nodes in `<![CDATA[ ... ]]>` instead of
     escaping when necessary. Does not add `<![CDATA[ ... ]]>` if it is not required.
     Added in 0.4.5.
+  * `preserveChildrenOrder` (default `false`): If found, render will use the "children"
+    property instead of the object key/value to find its list of children, using the
+    `#name` property as the element name. If no "children" property is present, the
+    element will render as usual, except that it will skip properties named `#name`
 
 `renderOpts`, `xmldec`,`doctype` and `headless` pass through to
 [xmlbuilder-js](https://github.com/oozcitak/xmlbuilder-js).
