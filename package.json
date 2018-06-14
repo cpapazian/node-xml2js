@@ -59,6 +59,7 @@
     "lib": "./lib"
   },
   "scripts": {
+    "compile": "coffee --compile --output lib/ src",
     "test": "zap",
     "coverage": "nyc npm test && nyc report",
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
